@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16305c">
+<title>Марк Филимонов — в Ученический совет!</title>
+<style>
+  :root{
+    --navy:#16305c;
+    --navy-2:#1f4a8f;
+    --navy-3:#2a5fae;
+    --accent:#e63946;
+    --gold:#f4b942;
+    --bg:#f4f6fb;
+    --card:#ffffff;
+    --text:#1b2436;
+    --muted:#6b7891;
+    --radius:18px;
+    --shadow:0 6px 22px rgba(22,48,92,.10);
+    --nav-h:66px;
+  }
+
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+
+  html,body{margin:0; padding:0;}
+
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.5;
+    overflow-x:hidden;
+    padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 12px);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:560px; margin:0 auto;}
+
+  /* ================= PAGES ================= */
+  .page{display:none; animation:fadeIn .28s ease;}
+  .page.active{display:block;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
+
+  /* ================= HERO ================= */
+  .hero{
+    position:relative;
+    background:linear-gradient(150deg,#0f2347 0%,var(--navy) 45%,var(--navy-2) 100%);
+    color:#fff;
+    padding:34px 20px 30px;
+    border-radius:0 0 28px 28px;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; right:-70px; top:-70px;
+    width:210px; height:210px; border-radius:50%;
+    background:radial-gradient(circle,rgba(244,185,66,.35),transparent 68%);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; left:-80px; bottom:-90px;
+    width:200px; height:200px; border-radius:50%;
+    background:radial-gradient(circle,rgba(230,57,70,.30),transparent 68%);
+  }
+  .hero__badge{
+    position:relative; z-index:1;
+    display:inline-block;
+    font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.25);
+    padding:6px 12px; border-radius:999px;
+    margin-bottom:14px;
+  }
+  .hero h1{
+    position:relative; z-index:1;
+    margin:0 0 6px;
+    font-size:30px; line-height:1.1; font-weight:800; letter-spacing:-.5px;
+  }
+  .hero__sub{
+    position:relative; z-index:1;
+    margin:0 0 18px;
+    font-size:15px; color:#c9d8f2;
+  }
+  .hero__slogan{
+    position:relative; z-index:1;
+    display:inline-block;
+    background:var(--gold); color:#3a2a00;
+    font-weight:800; font-size:14px;
+    padding:9px 15px; border-radius:12px;
+    box-shadow:0 6px 16px rgba(244,185,66,.35);
+  }
+
+  /* ================= MARQUEE ================= */
+  .marquee{
+    margin-top:-14px;
+    background:var(--accent);
+    color:#fff;
+    transform:rotate(-1.5deg) scale(1.03);
+    box-shadow:0 6px 18px rgba(230,57,70,.28);
+    overflow:hidden;
+    padding:9px 0;
+    position:relative; z-index:2;
+  }
+  .marquee__track{
+    display:flex; width:max-content;
+    animation:marquee 28s linear infinite;
+  }
+  .marquee__track span{
+    padding-right:38px;
+    font-weight:700; font-size:14px; white-space:nowrap;
+  }
+  @keyframes marquee{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
+  /* ================= SECTION ================= */
+  .section{padding:26px 16px 6px;}
+  .section__title{
+    font-size:19px; font-weight:800; margin:0 0 4px; letter-spacing:-.3px;
+  }
+  .section__hint{
+    font-size:13px; color:var(--muted); margin:0 0 14px;
+  }
+
+  /* ================= RHYMES (horizontal scroll) ================= */
+  .rhymes{
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    padding:2px 16px 18px;
+    margin:0 -16px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .rhymes::-webkit-scrollbar{display:none;}
+  .rhyme{
+    flex:0 0 80%;
+    scroll-snap-align:center;
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:18px;
+    box-shadow:var(--shadow);
+    border-left:5px solid var(--navy-2);
+    font-size:15px;
+    white-space:pre-line;
+    line-height:1.55;
+    font-weight:600;
+    color:#25324a;
+  }
+  .rhyme:nth-child(3n+2){border-left-color:var(--accent);}
+  .rhyme:nth-child(3n+3){border-left-color:var(--gold);}
+  .rhyme small{
+    display:block; margin-top:10px;
+    font-size:11px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--muted);
+  }
+  .dots{
+    display:flex; justify-content:center; gap:6px; margin-top:-8px;
+  }
+  .dots i{
+    width:6px; height:6px; border-radius:50%; background:#c6d0e2; transition:.25s;
+  }
+  .dots i.on{background:var(--navy-2); width:18px; border-radius:3px;}
+
+  /* ================= CARDS ================= */
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:16px;
+    box-shadow:var(--shadow);
+    margin-bottom:12px;
+  }
+  .card__row{display:flex; gap:12px; align-items:flex-start;}
+  .card__icon{
+    flex:0 0 44px; height:44px;
+    display:grid; place-items:center;
+    border-radius:13px;
+    background:#e9f0fc;
+    font-size:22px;
+  }
+  .card h3{margin:0 0 4px; font-size:16px; font-weight:800;}
+  .card p{margin:0; font-size:14px; color:#485571;}
+
+  .grid-why{display:grid; gap:10px;}
+  .why{
+    display:flex; gap:12px; align-items:center;
+    background:var(--card); border-radius:14px; padding:13px 14px;
+    box-shadow:var(--shadow);
+  }
+  .why b{display:block; font-size:14.5px;}
+  .why span{font-size:12.5px; color:var(--muted);}
+  .why__num{
+    flex:0 0 34px; height:34px; border-radius:11px;
+    background:linear-gradient(140deg,var(--navy-2),var(--navy-3));
+    color:#fff; display:grid; place-items:center;
+    font-weight:800; font-size:14px;
+  }
+
+  /* ================= BUTTONS ================= */
+  .btn{
+    display:block; width:100%;
+    border:none; cursor:pointer;
+    background:linear-gradient(140deg,var(--navy-2),var(--navy-3));
+    color:#fff; font-size:16px; font-weight:800;
+    padding:15px; border-radius:15px;
+    box-shadow:0 8px 20px rgba(31,74,143,.30);
+    transition:transform .12s ease;
+    font-family:inherit;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn--ghost{
+    background:#fff; color:var(--navy-2);
+    box-shadow:var(--shadow);
+    border:2px solid #dbe6f8;
+  }
+
+  /* ================= CLICKER ================= */
+  .clicker{
+    text-align:center;
+    padding:22px 16px 10px;
+  }
+  .counters{display:flex; gap:10px; margin-bottom:20px;}
+  .counter{
+    flex:1; background:var(--card); border-radius:16px;
+    padding:13px 8px; box-shadow:var(--shadow);
+  }
+  .counter b{display:block; font-size:24px; font-weight:800; color:var(--navy-2); line-height:1.15;}
+  .counter span{font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-weight:700;}
+
+  .clicker__stage{
+    position:relative;
+    display:grid; place-items:center;
+    padding:14px 0 6px;
+  }
+  .clicker__glow{
+    position:absolute; width:230px; height:230px; border-radius:50%;
+    background:radial-gradient(circle,rgba(31,74,143,.20),transparent 65%);
+    animation:pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:.85;}50%{transform:scale(1.12);opacity:1;}}
+
+  #clickerImg{
+    position:relative;
+    width:190px; height:190px; object-fit:contain;
+    background:#fff; border-radius:50%;
+    padding:16px;
+    box-shadow:0 12px 30px rgba(22,48,92,.22);
+    cursor:pointer;
+    user-select:none;
+    -webkit-user-drag:none;
+    touch-action:manipulation;
+    transition:box-shadow .15s ease;
+  }
+  #clickerImg.pop{animation:pop .18s ease-out;}
+  @keyframes pop{
+    0%{transform:scale(1);}
+    40%{transform:scale(.82);}
+    75%{transform:scale(1.06);}
+    100%{transform:scale(1);}
+  }
+
+  .float{
+    position:absolute; pointer-events:none;
+    font-weight:800; font-size:20px; color:var(--accent);
+    animation:floatUp .75s ease-out forwards;
+    z-index:5;
+  }
+  @keyframes floatUp{
+    0%{opacity:1; transform:translate(-50%,0) scale(.8);}
+    100%{opacity:0; transform:translate(-50%,-70px) scale(1.3);}
+  }
+
+  .clicker__hint{font-size:13px; color:var(--muted); margin:12px 0 18px;}
+
+  .progress{
+    height:10px; border-radius:99px; background:#e3eaf6; overflow:hidden;
+    margin:6px 0 8px;
+  }
+  .progress i{
+    display:block; height:100%; width:0%;
+    background:linear-gradient(90deg,var(--navy-3),var(--gold));
+    border-radius:99px; transition:width .25s ease;
+  }
+
+  .prize{
+    display:flex; gap:10px; text-align:left; align-items:flex-start;
+    background:#fff8e8; border:1.5px solid #ffe2a8;
+    border-radius:16px; padding:14px; margin-top:16px;
+  }
+  .prize span{font-size:22px;}
+  .prize p{margin:0; font-size:13.5px; color:#6a5320;}
+
+  /* ================= BOTTOM NAV ================= */
+  .nav{
+    position:fixed; left:0; right:0; bottom:0; z-index:50;
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-top:1px solid #e4eaf5;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .nav__inner{
+    max-width:560px; margin:0 auto;
+    height:var(--nav-h);
+    display:grid; grid-template-columns:repeat(4,1fr);
+  }
+  .tab{
+    border:none; background:none; cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:3px; font-family:inherit;
+    color:#8b98b0; font-size:10.5px; font-weight:700;
+    transition:color .2s ease;
+    padding:0;
+  }
+  .tab svg{width:23px; height:23px; transition:transform .2s ease;}
+  .tab.on{color:var(--navy-2);}
+  .tab.on svg{transform:translateY(-2px) scale(1.08);}
+  .tab:active svg{transform:scale(.9);}
+
+  /* ================= FOOTER ================= */
+  .footer{
+    text-align:center; padding:26px 20px 30px;
+    font-size:13px; color:var(--muted);
+  }
+  .footer b{color:var(--navy-2);}
+
+  .tag{
+    display:inline-block; font-size:11px; font-weight:800;
+    letter-spacing:.05em; text-transform:uppercase;
+    background:#e9f0fc; color:var(--navy-2);
+    padding:4px 10px; border-radius:99px; margin-bottom:10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ================= ГЛАВНАЯ ================= -->
+  <section class="page active" id="page-home">
+
+    <header class="hero">
+      <div class="hero__badge">Выборы председателя</div>
+      <h1>Филимонов<br>Марк</h1>
+      <p class="hero__sub">Кандидат в Ученический совет · 10Б класс</p>
+      <div class="hero__slogan">Давайте вместе сделаем школу лучше!</div>
+    </header>
+
+    <div class="marquee">
+      <div class="marquee__track">
+        <span>🔥 Марк Филимонов — в сердцах миллионов</span>
+        <span>🚀 Сделаем школу лучше</span>
+        <span>🎮 Киберспорт, маскарад — каждый будет школе рад!</span>
+        <span>🗳️ Каждый голос важен</span>
+        <span>🔥 Марк Филимонов — в сердцах миллионов</span>
+        <span>🚀 Сделаем школу лучше</span>
+        <span>🎮 Киберспорт, маскарад — каждый будет школе рад!</span>
+        <span>🗳️ Каждый голос важен</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section__title">Предвыборные частушки</h2>
+      <p class="section__hint">Листай вбок → там ещё есть!</p>
+    </div>
+
+    <div class="rhymes" id="rhymes">
+      <div class="rhyme">Раз, два, три, четыре, пять —
+Марка будем выбирать!
+Он активный, он крутой,
+В Ученический совет — с тобой!<small>От Георгия</small></div>
+
+      <div class="rhyme">Кто у нас в Совете будет?
+— Марк Филимонов!
+Кто про школу не забудет?
+— Марк Филимонов!
+Кто идеи воплотит?
+— Марк Филимонов!
+Кто нас всех объединит?
+— Марк Филимонов!<small>Кричалка</small></div>
+
+      <div class="rhyme">10Б — вперёд, к победе!
+Марк Филимонов — в Совете!
+Киберспорт, маскарад —
+Каждый будет школе рад!<small>Речёвка 10Б</small></div>
+
+      <div class="rhyme">Марк — хороший претендент,
+Марк не скажет слова «нет»,
+Марк послушает вас всех,
+Марку конкурентов нет!<small>От Марка</small></div>
+
+      <div class="rhyme">Мы доверим Марку смело
+Наше школьное движение!
+Он не подведёт, не бросит,
+Совет школы он возносит!<small>От Марка</small></div>
+
+      <div class="rhyme">Марк — наш выбор, Марк — наш свет,
+Лучше кандидата нет!
+Всех услышит, всё поймёт,
+За собой вперёд ведёт!<small>От Марка</small></div>
+
+      <div class="rhyme">Мы за Марка голосуем,
+Вместе школьный совет строим!
+С ним не страшно, не тревожно —
+Сделать школу лучше можно!<small>От Марка</small></div>
+
+      <div class="rhyme">Голосуем за Марка,
+школа станет словно сказка!<small>Коротко и ясно</small></div>
+
+      <div class="rhyme">Марк Филимонов
+в сердцах миллионов ❤️<small>Главный слоган</small></div>
+    </div>
+
+    <div class="dots" id="dots"></div>
+
+    <div class="section">
+      <h2 class="section__title">Почему я</h2>
+      <p class="section__hint">Три причины выбрать меня</p>
+      <div class="grid-why">
+        <div class="why">
+          <div class="why__num">4</div>
+          <div><b>Четвёртый год в школе</b><span>Знаю школьную жизнь изнутри</span></div>
+        </div>
+        <div class="why">
+          <div class="why__num">2</div>
+          <div><b>Два года старостой</b><span>Умею отвечать за общее дело</span></div>
+        </div>
+        <div class="why">
+          <div class="why__num">10</div>
+          <div><b>Больше свободного времени</b><span>10 класс — нет подготовки к экзаменам, есть время для Совета</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <button class="btn" onclick="go('clicker')">🎮 Играть в кликер и выиграть приз</button>
+      <div style="height:10px"></div>
+      <button class="btn btn--ghost" onclick="go('projects')">Смотреть мои проекты</button>
+    </div>
+
+    <div class="footer">Каждый голос важен. <b>Марк Филимонов — ваш выбор.</b></div>
+  </section>
+
+  <!-- ================= ПРОЕКТЫ ================= -->
+  <section class="page" id="page-projects">
+    <div class="section">
+      <span class="tag">Моя программа</span>
+      <h2 class="section__title">Проекты и идеи</h2>
+      <p class="section__hint">Что я хочу сделать вместе с вами</p>
+    </div>
+
+    <div class="section" style="padding-top:0">
+      <div class="card">
+        <div class="card__row">
+          <div class="card__icon">🎯</div>
+          <div>
+            <h3>«Слабое звено»</h3>
+            <p>Известная интеллектуальная игра: вопросы, раунды, очки и финальная дуэль. Проверит знания, объединит параллели и даст шанс попробовать себя в роли ведущего или судьи.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__row">
+          <div class="card__icon">🎭</div>
+          <div>
+            <h3>Школьный маскарад</h3>
+            <p>Тематический день с костюмами, фотозоной, квестом и конкурсом образов. Можно прийти в любимой одежде или костюме, забыть про форму и поучаствовать в активностях.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__row">
+          <div class="card__icon">🎮</div>
+          <div>
+            <h3>Школьный киберспорт</h3>
+            <p>Развитие киберспортивного направления и участие в соревнованиях как в школе, так и за её пределами. Командная работа, стратегическое мышление и представление школы на турнирах.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__row">
+          <div class="card__icon">💡</div>
+          <div>
+            <h3>«Твоя идея»</h3>
+            <p>Любой ученик может предложить свою идею — мероприятие, конкурс или акцию. Автор идеи принимает участие и в её реализации.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__row">
+          <div class="card__icon">🎨</div>
+          <div>
+            <h3>Школьная ярмарка</h3>
+            <p>Возможность показать свои рисунки, таланты, изделия ручной работы, украшения и любые другие творческие работы.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__row">
+          <div class="card__icon">🎄</div>
+          <div>
+            <h3>Новогодний бал</h3>
+            <p>Обновим формат: новые активности, конкурсы и возможности проявить себя. Ваши идеи тоже рассмотрим!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="padding-top:6px">
+      <div class="card" style="background:linear-gradient(140deg,#0f2347,#1f4a8f); color:#fff;">
+        <h3 style="color:#fff; font-size:17px;">Открытый Совет</h3>
+        <p style="color:#c9d8f2; font-size:14px; margin-top:6px;">
+          Важно, чтобы Ученический совет был открыт для всех. Я готов слушать предложения учеников,
+          обсуждать их вместе с командой и помогать воплощать лучшие идеи в жизнь.
+        </p>
+      </div>
+      <button class="btn" onclick="go('clicker')">🎮 Перейти к кликеру</button>
+    </div>
+
+    <div class="footer">Мероприятия создаём <b>не только для учеников, но и вместе с ними</b>.</div>
+  </section>
+
+  <!-- ================= КЛИКЕР ================= -->
+  <section class="page" id="page-clicker">
+    <div class="section">
+      <span class="tag">Конкурс</span>
+      <h2 class="section__title">Кликер «Победи Марка»</h2>
+      <p class="section__hint">Кто больше всех накликает за сутки — получит приз!</p>
+    </div>
+
+    <div class="clicker">
+      <div class="counters">
+        <div class="counter"><b id="todayCount">0</b><span>Сегодня</span></div>
+        <div class="counter"><b id="totalCount">0</b><span>Всего</span></div>
+      </div>
+
+      <!-- ===== БЛОК АВТОРИЗАЦИИ (ТОЛЬКО ЛОГИН) ===== -->
+      <div class="card" id="authCard" style="text-align:left; margin-bottom:18px;">
+        <h3 style="margin:0 0 10px; font-size:16px; font-weight:800;">Вход для участника</h3>
+        <input type="text" id="loginInput" placeholder="Введите логин" style="width:100%; padding:12px; border-radius:12px; border:1.5px solid #dbe6f8; font-size:15px; margin-bottom:10px; box-sizing:border-box; font-family:inherit;">
+        <div style="display:flex; gap:8px;">
+          <button class="btn" style="flex:1; padding:12px; font-size:15px;" id="loginBtn">Войти</button>
+          <button class="btn btn--ghost" style="flex:1; padding:12px; font-size:15px;" id="registerBtn">Регистрация</button>
+        </div>
+        <p id="userStatus" style="font-size:13px; color:var(--muted); margin:10px 0 0;">Вы не вошли в систему</p>
+      </div>
+      <!-- ===== /БЛОК АВТОРИЗАЦИИ ===== -->
+
+      <div class="clicker__stage" id="stage">
+        <div class="clicker__glow"></div>
+        <img
+          id="clickerImg"
+          src="https://school703.ru/wp-content/uploads/2022/04/LOGOTIP-1_page-0001.jpg"
+          alt="Логотип школы"
+          draggable="false"
+        >
+      </div>
+
+      <p class="clicker__hint">Нажимай на логотип 👆</p>
+
+      <div class="card" style="text-align:left">
+        <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700; color:#485571;">
+          <span>Цель дня</span>
+          <span id="progressLabel">0 / 100</span>
+        </div>
+        <div class="progress"><i id="progressBar"></i></div>
+        <p style="font-size:12.5px; color:var(--muted); margin:0;">
+          Накликай 100 — и ты в топе. Счётчик «Сегодня» сбрасывается каждый день.
+        </p>
+      </div>
+
+      <div class="prize">
+        <span>🏅</span>
+        <p><b>Победитель получит</b> почётную грамоту, медаль и возможность первым предложить свою идею Совету.</p>
+      </div>
+
+      <div style="height:16px"></div>
+      <button class="btn btn--ghost" onclick="resetToday()">Сбросить счётчик за сегодня</button>
+    </div>
+
+    <div class="footer">Скоро здесь появится <b>полноценный онлайн-кликер</b> с рейтингом участников.</div>
+  </section>
+
+  <!-- ================= ОБО МНЕ ================= -->
+  <section class="page" id="page-about">
+    <div class="section">
+      <span class="tag">Обо мне</span>
+      <h2 class="section__title">Филимонов Марк</h2>
+      <p class="section__hint">10 информационно-технологический класс · 10Б</p>
+    </div>
+
+    <div class="section" style="padding-top:0">
+      <div class="card">
+        <p style="font-size:14.5px; color:#3c4a63;">
+          Я хочу, чтобы школьная жизнь была не только про уроки и оценки. Мне хочется,
+          чтобы у учеников было больше интересных событий, возможностей показать себя
+          и способов влиять на жизнь школы.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card__row">
+          <div class="card__icon">🏫</div>
+          <div>
+            <h3>Четвёртый год в школе</h3>
+            <p>Я учусь здесь уже четвёртый год и хорошо знаю, как проходят разные мероприятия.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__row">
+          <div class="card__icon">📋</div>
+          <div>
+            <h3>Два года старостой</h3>
+            <p>Знаю, что значит отвечать не только за себя, но и за общее дело.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__row">
+          <div class="card__icon">⏰</div>
+          <div>
+            <h3>Время для Совета</h3>
+            <p>Я в 10 классе, поэтому у меня нет такой активной подготовки к экзаменам, как у 11-го.
+               Значит, больше времени на Совет, проекты и общение с учениками.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__row">
+          <div class="card__icon">👂</div>
+          <div>
+            <h3>Умею слушать</h3>
+            <p>Я умею слушать одноклассников и товарищей, узнавать их мнение и спокойно обсуждать
+               разные предложения. Председатель должен не просто говорить от себя, а учитывать
+               интересы учеников.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="background:#eef4ff; box-shadow:none; border:1.5px solid #d9e6fb;">
+        <p style="font-size:14.5px; color:#2b3f63; margin:0; font-weight:600;">
+          Я хочу, чтобы школьные мероприятия создавались не только для учеников, но и вместе с ними.
+          Тогда каждый почувствует, что его мнение действительно важно.
+        </p>
+      </div>
+    </div>
+
+    <div class="section">
+      <button class="btn" onclick="go('home')">🗳️ Вернуться на главную</button>
+    </div>
+
+    <div class="footer">Каждый голос важен.<br><b>Давайте вместе сделаем нашу школу ещё лучше!</b></div>
+  </section>
+
+</div>
+
+<!-- ================= НАВИГАЦИЯ ================= -->
+<nav class="nav">
+  <div class="nav__inner">
+    <button class="tab on" data-page="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>
+      </svg>
+      Главная
+    </button>
+    <button class="tab" data-page="projects">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16v4H4z"/><path d="M4 12h16v8H4z"/>
+      </svg>
+      Проекты
+    </button>
+    <button class="tab" data-page="clicker">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+      </svg>
+      Кликер
+    </button>
+    <button class="tab" data-page="about">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/>
+      </svg>
+      Обо мне
+    </button>
+  </div>
+</nav>
+
+<script>
+/* ================= НАВИГАЦИЯ ================= */
+const tabs  = document.querySelectorAll('.tab');
+const pages = document.querySelectorAll('.page');
+
+function go(name){
+  pages.forEach(p => p.classList.toggle('active', p.id === 'page-' + name));
+  tabs.forEach(t => t.classList.toggle('on', t.dataset.page === name));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+tabs.forEach(t => t.addEventListener('click', () => go(t.dataset.page)));
+
+/* ================= ТОЧКИ-ИНДИКАТОРЫ У ЧАСТУШЕК ================= */
+const rhymesEl = document.getElementById('rhymes');
+const dotsEl   = document.getElementById('dots');
+
+if (rhymesEl && dotsEl){
+  const cards = rhymesEl.querySelectorAll('.rhyme');
+  cards.forEach((_, i) => {
+    const d = document.createElement('i');
+    if (i === 0) d.classList.add('on');
+    dotsEl.appendChild(d);
+  });
+
+  rhymesEl.addEventListener('scroll', () => {
+    const center = rhymesEl.scrollLeft + rhymesEl.clientWidth / 2;
+    let best = 0, bestDist = Infinity;
+    cards.forEach((c, i) => {
+      const cardCenter = c.offsetLeft + c.offsetWidth / 2;
+      const dist = Math.abs(cardCenter - center);
+      if (dist < bestDist){ bestDist = dist; best = i; }
+    });
+    dotsEl.querySelectorAll('i').forEach((d, i) => d.classList.toggle('on', i === best));
+  }, { passive: true });
+}
+
+/* ================= КЛИКЕР ================= */
+const img        = document.getElementById('clickerImg');
+const stage      = document.getElementById('stage');
+const todayEl    = document.getElementById('todayCount');
+const totalEl    = document.getElementById('totalCount');
+const barEl      = document.getElementById('progressBar');
+const barLabel   = document.getElementById('progressLabel');
+const GOAL = 100;
+
+const todayKey = () => new Date().toISOString().slice(0, 10);
+
+let total = parseInt(localStorage.getItem('mk_total') || '0', 10);
+let today = parseInt(localStorage.getItem('mk_today') || '0', 10);
+
+/* сброс дневного счётчика при смене даты */
+if (localStorage.getItem('mk_date') !== todayKey()){
+  today = 0;
+  localStorage.setItem('mk_date', todayKey());
+  localStorage.setItem('mk_today', '0');
+}
+
+/* ---------- СЕРВЕРНАЯ ИНТЕГРАЦИЯ (ЗАГОТОВКА) ---------- */
+const SERVER_URL = ''; // Укажите URL сервера, например 'https://example.com/api'
+let currentUser = localStorage.getItem('mk_user') || null;
+
+const loginInput  = document.getElementById('loginInput');
+const loginBtn    = document.getElementById('loginBtn');
+const registerBtn = document.getElementById('registerBtn');
+const userStatus  = document.getElementById('userStatus');
+
+function updateUserStatus() {
+  if (currentUser) {
+    userStatus.textContent = 'Вы вошли как: ' + currentUser;
+  } else {
+    userStatus.textContent = 'Вы не вошли в систему';
+  }
+}
+updateUserStatus();
+
+async function sendAuthRequest(action, login) {
+  if (!SERVER_URL) {
+    // Локальный режим (без сервера)
+    if (action === 'register') {
+      const users = JSON.parse(localStorage.getItem('mk_users') || '[]');
+      if (users.includes(login)) {
+        alert('Логин уже занят');
+        return false;
+      }
+      users.push(login);
+      localStorage.setItem('mk_users', JSON.stringify(users));
+    } else {
+      const users = JSON.parse(localStorage.getItem('mk_users') || '[]');
+      if (!users.includes(login)) {
+        alert('Пользователь не найден. Зарегистрируйтесь.');
+        return false;
+      }
+    }
+    currentUser = login;
+    localStorage.setItem('mk_user', login);
+    updateUserStatus();
+    return true;
+  } else {
+    // Режим сервера
+    try {
+      const res = await fetch(SERVER_URL + '/auth', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ action, login })
+      });
+      const data = await res.json();
+      if (data.success) {
+        currentUser = data.login || login;
+        localStorage.setItem('mk_user', currentUser);
+        updateUserStatus();
+        return true;
+      } else {
+        alert(data.message || 'Ошибка авторизации');
+        return false;
+      }
+    } catch (e) {
+      alert('Сервер недоступен');
+      return false;
+    }
+  }
+}
+
+loginBtn.addEventListener('click', async () => {
+  const login = loginInput.value.trim();
+  if (!login) { alert('Введите логин'); return; }
+  await sendAuthRequest('login', login);
+});
+
+registerBtn.addEventListener('click', async () => {
+  const login = loginInput.value.trim();
+  if (!login) { alert('Введите логин'); return; }
+  await sendAuthRequest('register', login);
+});
+
+async function sendClickToServer() {
+  if (!SERVER_URL || !currentUser) return;
+  try {
+    await fetch(SERVER_URL + '/click', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ login: currentUser, timestamp: Date.now() })
+    });
+  } catch (e) {
+    // Игнорируем ошибки отправки
+  }
+}
+/* ---------- /СЕРВЕРНАЯ ИНТЕГРАЦИЯ ---------- */
+
+function render(){
+  todayEl.textContent = today;
+  totalEl.textContent = total;
+  const pct = Math.min(100, Math.round(today / GOAL * 100));
+  barEl.style.width = pct + '%';
+  barLabel.textContent = Math.min(today, GOAL) + ' / ' + GOAL + (today >= GOAL ? ' 🔥' : '');
+}
+render();
+
+function spawnFloat(x, y, text){
+  const el = document.createElement('div');
+  el.className = 'float';
+  el.textContent = text;
+  el.style.left = x + 'px';
+  el.style.top  = y + 'px';
+  stage.appendChild(el);
+  setTimeout(() => el.remove(), 760);
+}
+
+function handleClick(e){
+  /* счётчики */
+  today++;
+  total++;
+  localStorage.setItem('mk_today', today);
+  localStorage.setItem('mk_total', total);
+  localStorage.setItem('mk_date', todayKey());
+  render();
+
+  /* отправка на сервер (если настроен) */
+  sendClickToServer();
+
+  /* анимация сжатия / увеличения картинки */
+  img.classList.remove('pop');
+  void img.offsetWidth;      /* перезапуск анимации */
+  img.classList.add('pop');
+
+  /* всплывающая «+1» */
+  const rect = img.getBoundingClientRect();
+  const stageRect = stage.getBoundingClientRect();
+  const cx = (e.clientX || rect.left + rect.width / 2) - stageRect.left;
+  const cy = (e.clientY || rect.top + rect.height / 2) - stageRect.top;
+  spawnFloat(cx, cy - 10, '+1');
+
+  /* лёгкая вибрация на телефоне */
+  if (navigator.vibrate) navigator.vibrate(8);
+}
+
+/* pointerdown — мгновенная реакция на телефоне */
+img.addEventListener('pointerdown', handleClick);
+/* защита от «двойного» срабатывания и от перетаскивания */
+img.addEventListener('contextmenu', e => e.preventDefault());
+img.addEventListener('dragstart',  e => e.preventDefault());
+
+function resetToday(){
+  if (!confirm('Сбросить счётчик за сегодня?')) return;
+  today = 0;
+  localStorage.setItem('mk_today', '0');
+  localStorage.setItem('mk_date', todayKey());
+  render();
+}
+</script>
+
+</body>
+</html>
